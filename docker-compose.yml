@@ -1,0 +1,33 @@
+version: '3'
+services:
+  app:
+    container_name: devops-comp-tarea
+    build: .
+    ports:
+      - '3000:3000'
+      - '5000:5000'
+    networks:
+      - devops-red
+    depends_on:
+      mysql:
+        condition: service_healthy
+  mysql:
+    container_name: mysql-master
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: forms_dev
+    volumes:
+      - './init.sql:/docker-entrypoint-initdb.d/init.sql'
+    ports:
+      - '3307:3306'
+    networks:
+      red-dev:
+        aliases:
+          - mysql 
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 30s
+      retries: 5
+networks:
+  red-dev:

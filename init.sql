@@ -1,0 +1,7 @@
+USE forms_dev;
+
+CREATE TABLE IF NOT EXISTS autos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  modelo VARCHAR(255),
+  anho VARCHAR(255)
+);
